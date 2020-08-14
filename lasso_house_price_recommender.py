@@ -1,4 +1,4 @@
-# fastscore.schema.0: lasso_schema_in
+# fastscore.schema.0: input_schema.avsc
 # fastscore.slot.1: in-use
 
 import pandas as pd
