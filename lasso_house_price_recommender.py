@@ -15,11 +15,14 @@ def begin():
     lasso_model = pickle.load(open("lasso_model.pickle", "rb"))
     train_encoded_columns = pickle.load(open("train_encoded_columns.pickle", "rb"))
 
+    print("\ntype(lasso_model): ", type(lasso_model), flush=True)
+    print("\ntype(train_encoded_columns): ", type(train_encoded_columns), flush=True)
+
 
 # modelop.score
 def action(data):
     
-    print(type(data))
+    print("\ntype(data): ", type(data), flush=True)
 
     data = pd.DataFrame(data)
 
@@ -56,7 +59,7 @@ def action(data):
     data['YrSold']  = pd.Categorical(data.YrSold)
     data['MoSold']  = pd.Categorical(data.MoSold)
     
-    print("shape: ", data.shape)
+    print("\nshape: ", data.shape, flush=True)
 
     #  Computing total square-footage as a new feature
     data['TotalSF'] = data['TotalBsmtSF'] + data['firstFlrSF'] + data['secondFlrSF']
@@ -84,7 +87,7 @@ def action(data):
     # Drop some unnecassary features
     data = data.drop(['threeSsnPorch', 'PoolArea', 'LowQualFinSF'], axis=1)
     
-    print("shape before get dummies: ", data.shape)
+    print("\nshape before get dummies: ", data.shape, flush=True)
 
     cat_cols = [
         'MSSubClass', 'MSZoning', 'Street', 'Alley', 'LotShape', 'LandContour', 
@@ -101,19 +104,19 @@ def action(data):
 
     encoded_features = pd.get_dummies(data, columns = cat_cols)
     
-    print("shape after get dummies: ", encoded_features.shape)
+    print("\nshape after get dummies: ", encoded_features.shape)
 
     # Matching dummy variables from training set to current dummy variables
     missing_cols = set(train_encoded_columns) - set(encoded_features.columns)
 
-    print("len of Missing Cols: ", len(missing_cols))
+    print("\nlen of Missing Cols: ", len(missing_cols), flush=True)
     for c in missing_cols:
         encoded_features[c] = 0
 
     # Matching order of variables to those used in training
     encoded_features = encoded_features[train_encoded_columns]
     
-    print("shape Encoded Features: ", encoded_features.shape)
+    print("\nshape of encoded_features: ", encoded_features.shape)
 
     # Computing predictions for each record
     log_predictions = lasso_model.predict(encoded_features)
@@ -130,11 +133,15 @@ def action(data):
     # [{'Id': 1461, 'predicted_sale_price': 120429.01}, 
     #  {'Id': 1462, 'predicted_sale_price': 123970.31}]
     
+    print("\noutput: ", pd.DataFrame(adjusted_predictions).to_dict(orient='records'), flush=True)
+    
     yield pd.DataFrame(adjusted_predictions).to_dict(orient='records')
 
 
 # modelop.metrics
 def metrics(datum):
+
+    print(type(datum), flush=True)
 
     adjusted_predictions = datum['predicted_sale_price']
     actuals = datum['actual_sale_price']
