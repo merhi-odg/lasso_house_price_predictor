@@ -1,0 +1,17 @@
+{
+    "type": "array",
+    "items": {
+        "type": "record",
+        "name": "output_schema.avsc",
+        "fields": [
+            {
+                "name": "Id",
+                "type": "int"
+            },
+            {
+                "name": "predicted_sale_price",
+                "type": "double"
+            }
+        ]
+    }
+}

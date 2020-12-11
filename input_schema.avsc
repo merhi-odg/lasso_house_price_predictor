@@ -1,326 +1,329 @@
 {
-   "type": "record",
-   "name": "input_schema.avsc",
-   "fields": [
-      {
-         "name": "YrSold",
-         "type": "int"
-      },
-      {
-         "name": "MiscFeature",
-         "type": "string"
-      },
-      {
-         "name": "Condition1",
-         "type": "string"
-      },
-      {
-         "name": "Id",
-         "type": "int"
-      },
-      {
-         "name": "SaleCondition",
-         "type": "string"
-      },
-      {
-         "name": "KitchenQual",
-         "type": "string"
-      },
-      {
-         "name": "LotShape",
-         "type": "string"
-      },
-      {
-         "name": "secondFlrSF",
-         "type": "int"
-      },
-      {
-         "name": "LotArea",
-         "type": "int"
-      },
-      {
-         "name": "GarageType",
-         "type": "string"
-      },
-      {
-         "name": "Exterior1st",
-         "type": "string"
-      },
-      {
-         "name": "BsmtFinSF1",
-         "type": "float"
-      },
-      {
-         "name": "BsmtQual",
-         "type": "string"
-      },
-      {
-         "name": "HalfBath",
-         "type": "int"
-      },
-      {
-         "name": "FullBath",
-         "type": "int"
-      },
-      {
-         "name": "GarageYrBlt",
-         "type": "float"
-      },
-      {
-         "name": "GarageCars",
-         "type": "float"
-      },
-      {
-         "name": "threeSsnPorch",
-         "type": "int"
-      },
-      {
-         "name": "GarageQual",
-         "type": "string"
-      },
-      {
-         "name": "GarageArea",
-         "type": "float"
-      },
-      {
-         "name": "Exterior2nd",
-         "type": "string"
-      },
-      {
-         "name": "OpenPorchSF",
-         "type": "int"
-      },
-      {
-         "name": "Street",
-         "type": "string"
-      },
-      {
-         "name": "Heating",
-         "type": "string"
-      },
-      {
-         "name": "YearRemodAdd",
-         "type": "int"
-      },
-      {
-         "name": "BsmtExposure",
-         "type": "string"
-      },
-      {
-         "name": "MasVnrArea",
-         "type": "float"
-      },
-      {
-         "name": "BsmtFinSF2",
-         "type": "float"
-      },
-      {
-         "name": "firstFlrSF",
-         "type": "int"
-      },
-      {
-         "name": "BedroomAbvGr",
-         "type": "int"
-      },
-      {
-         "name": "Functional",
-         "type": "string"
-      },
-      {
-         "name": "Electrical",
-         "type": "string"
-      },
-      {
-         "name": "Utilities",
-         "type": "string"
-      },
-      {
-         "name": "MiscVal",
-         "type": "int"
-      },
-      {
-         "name": "PoolArea",
-         "type": "int"
-      },
-      {
-         "name": "LandContour",
-         "type": "string"
-      },
-      {
-         "name": "GrLivArea",
-         "type": "int"
-      },
-      {
-         "name": "PoolQC",
-         "type": "string"
-      },
-      {
-         "name": "TotalBsmtSF",
-         "type": "float"
-      },
-      {
-         "name": "HeatingQC",
-         "type": "string"
-      },
-      {
-         "name": "GarageCond",
-         "type": "string"
-      },
-      {
-         "name": "YearBuilt",
-         "type": "int"
-      },
-      {
-         "name": "LowQualFinSF",
-         "type": "int"
-      },
-      {
-         "name": "SaleType",
-         "type": "string"
-      },
-      {
-         "name": "RoofStyle",
-         "type": "string"
-      },
-      {
-         "name": "CentralAir",
-         "type": "string"
-      },
-      {
-         "name": "MSZoning",
-         "type": "string"
-      },
-      {
-         "name": "EnclosedPorch",
-         "type": "int"
-      },
-      {
-         "name": "KitchenAbvGr",
-         "type": "int"
-      },
-      {
-         "name": "MasVnrType",
-         "type": "string"
-      },
-      {
-         "name": "MoSold",
-         "type": "int"
-      },
-      {
-         "name": "MSSubClass",
-         "type": "int"
-      },
-      {
-         "name": "Condition2",
-         "type": "string"
-      },
-      {
-         "name": "BsmtFinType1",
-         "type": "string"
-      },
-      {
-         "name": "PavedDrive",
-         "type": "string"
-      },
-      {
-         "name": "BsmtFinType2",
-         "type": "string"
-      },
-      {
-         "name": "RoofMatl",
-         "type": "string"
-      },
-      {
-         "name": "BldgType",
-         "type": "string"
-      },
-      {
-         "name": "OverallCond",
-         "type": "int"
-      },
-      {
-         "name": "Neighborhood",
-         "type": "string"
-      },
-      {
-         "name": "TotRmsAbvGrd",
-         "type": "int"
-      },
-      {
-         "name": "GarageFinish",
-         "type": "string"
-      },
-      {
-         "name": "OverallQual",
-         "type": "int"
-      },
-      {
-         "name": "Foundation",
-         "type": "string"
-      },
-      {
-         "name": "LotFrontage",
-         "type": "float"
-      },
-      {
-         "name": "ExterCond",
-         "type": "string"
-      },
-      {
-         "name": "HouseStyle",
-         "type": "string"
-      },
-      {
-         "name": "ExterQual",
-         "type": "string"
-      },
-      {
-         "name": "BsmtCond",
-         "type": "string"
-      },
-      {
-         "name": "LotConfig",
-         "type": "string"
-      },
-      {
-         "name": "ScreenPorch",
-         "type": "int"
-      },
-      {
-         "name": "LandSlope",
-         "type": "string"
-      },
-      {
-         "name": "BsmtUnfSF",
-         "type": "float"
-      },
-      {
-         "name": "Fence",
-         "type": "string"
-      },
-      {
-         "name": "Fireplaces",
-         "type": "int"
-      },
-      {
-         "name": "FireplaceQu",
-         "type": "string"
-      },
-      {
-         "name": "WoodDeckSF",
-         "type": "int"
-      },
-      {
-         "name": "BsmtFullBath",
-         "type": "float"
-      },
-      {
-         "name": "BsmtHalfBath",
-         "type": "float"
-      },
-      {
-         "name": "Alley",
-         "type": "string"
-      }
-   ]
+    "type": "array",
+    "items": {
+        "type": "record",
+        "name": "input_schema.avsc",
+        "fields": [
+            {
+                "name": "YrSold",
+                "type": "int"
+            },
+            {
+                "name": "MiscFeature",
+                "type": "string"
+            },
+            {
+                "name": "Condition1",
+                "type": "string"
+            },
+            {
+                "name": "Id",
+                "type": "int"
+            },
+            {
+                "name": "SaleCondition",
+                "type": "string"
+            },
+            {
+                "name": "KitchenQual",
+                "type": "string"
+            },
+            {
+                "name": "LotShape",
+                "type": "string"
+            },
+            {
+                "name": "secondFlrSF",
+                "type": "int"
+            },
+            {
+                "name": "LotArea",
+                "type": "int"
+            },
+            {
+                "name": "GarageType",
+                "type": "string"
+            },
+            {
+                "name": "Exterior1st",
+                "type": "string"
+            },
+            {
+                "name": "BsmtFinSF1",
+                "type": "float"
+            },
+            {
+                "name": "BsmtQual",
+                "type": "string"
+            },
+            {
+                "name": "HalfBath",
+                "type": "int"
+            },
+            {
+                "name": "FullBath",
+                "type": "int"
+            },
+            {
+                "name": "GarageYrBlt",
+                "type": "float"
+            },
+            {
+                "name": "GarageCars",
+                "type": "float"
+            },
+            {
+                "name": "threeSsnPorch",
+                "type": "int"
+            },
+            {
+                "name": "GarageQual",
+                "type": "string"
+            },
+            {
+                "name": "GarageArea",
+                "type": "float"
+            },
+            {
+                "name": "Exterior2nd",
+                "type": "string"
+            },
+            {
+                "name": "OpenPorchSF",
+                "type": "int"
+            },
+            {
+                "name": "Street",
+                "type": "string"
+            },
+            {
+                "name": "Heating",
+                "type": "string"
+            },
+            {
+                "name": "YearRemodAdd",
+                "type": "int"
+            },
+            {
+                "name": "BsmtExposure",
+                "type": "string"
+            },
+            {
+                "name": "MasVnrArea",
+                "type": "float"
+            },
+            {
+                "name": "BsmtFinSF2",
+                "type": "float"
+            },
+            {
+                "name": "firstFlrSF",
+                "type": "int"
+            },
+            {
+                "name": "BedroomAbvGr",
+                "type": "int"
+            },
+            {
+                "name": "Functional",
+                "type": "string"
+            },
+            {
+                "name": "Electrical",
+                "type": "string"
+            },
+            {
+                "name": "Utilities",
+                "type": "string"
+            },
+            {
+                "name": "MiscVal",
+                "type": "int"
+            },
+            {
+                "name": "PoolArea",
+                "type": "int"
+            },
+            {
+                "name": "LandContour",
+                "type": "string"
+            },
+            {
+                "name": "GrLivArea",
+                "type": "int"
+            },
+            {
+                "name": "PoolQC",
+                "type": "string"
+            },
+            {
+                "name": "TotalBsmtSF",
+                "type": "float"
+            },
+            {
+                "name": "HeatingQC",
+                "type": "string"
+            },
+            {
+                "name": "GarageCond",
+                "type": "string"
+            },
+            {
+                "name": "YearBuilt",
+                "type": "int"
+            },
+            {
+                "name": "LowQualFinSF",
+                "type": "int"
+            },
+            {
+                "name": "SaleType",
+                "type": "string"
+            },
+            {
+                "name": "RoofStyle",
+                "type": "string"
+            },
+            {
+                "name": "CentralAir",
+                "type": "string"
+            },
+            {
+                "name": "MSZoning",
+                "type": "string"
+            },
+            {
+                "name": "EnclosedPorch",
+                "type": "int"
+            },
+            {
+                "name": "KitchenAbvGr",
+                "type": "int"
+            },
+            {
+                "name": "MasVnrType",
+                "type": "string"
+            },
+            {
+                "name": "MoSold",
+                "type": "int"
+            },
+            {
+                "name": "MSSubClass",
+                "type": "int"
+            },
+            {
+                "name": "Condition2",
+                "type": "string"
+            },
+            {
+                "name": "BsmtFinType1",
+                "type": "string"
+            },
+            {
+                "name": "PavedDrive",
+                "type": "string"
+            },
+            {
+                "name": "BsmtFinType2",
+                "type": "string"
+            },
+            {
+                "name": "RoofMatl",
+                "type": "string"
+            },
+            {
+                "name": "BldgType",
+                "type": "string"
+            },
+            {
+                "name": "OverallCond",
+                "type": "int"
+            },
+            {
+                "name": "Neighborhood",
+                "type": "string"
+            },
+            {
+                "name": "TotRmsAbvGrd",
+                "type": "int"
+            },
+            {
+                "name": "GarageFinish",
+                "type": "string"
+            },
+            {
+                "name": "OverallQual",
+                "type": "int"
+            },
+            {
+                "name": "Foundation",
+                "type": "string"
+            },
+            {
+                "name": "LotFrontage",
+                "type": "float"
+            },
+            {
+                "name": "ExterCond",
+                "type": "string"
+            },
+            {
+                "name": "HouseStyle",
+                "type": "string"
+            },
+            {
+                "name": "ExterQual",
+                "type": "string"
+            },
+            {
+                "name": "BsmtCond",
+                "type": "string"
+            },
+            {
+                "name": "LotConfig",
+                "type": "string"
+            },
+            {
+                "name": "ScreenPorch",
+                "type": "int"
+            },
+            {
+                "name": "LandSlope",
+                "type": "string"
+            },
+            {
+                "name": "BsmtUnfSF",
+                "type": "float"
+            },
+            {
+                "name": "Fence",
+                "type": "string"
+            },
+            {
+                "name": "Fireplaces",
+                "type": "int"
+            },
+            {
+                "name": "FireplaceQu",
+                "type": "string"
+            },
+            {
+                "name": "WoodDeckSF",
+                "type": "int"
+            },
+            {
+                "name": "BsmtFullBath",
+                "type": "float"
+            },
+            {
+                "name": "BsmtHalfBath",
+                "type": "float"
+            },
+            {
+                "name": "Alley",
+                "type": "string"
+            }
+        ]
+    }
 }

@@ -1,9 +1,12 @@
 # fastscore.schema.0: input_schema.avsc
-# fastscore.slot.1: in-use
+# fastscore.schema.1: output_schema.avsc
+
 
 import pandas as pd
 import pickle
 import numpy as np
+from sklearn.metrics import mean_squared_error, mean_absolute_error
+
 
 # modelop.init
 def begin():
@@ -11,24 +14,19 @@ def begin():
     lasso_model = pickle.load(open("lasso_model.pickle", "rb"))
     train_encoded_columns = pickle.load(open("train_encoded_columns.pickle", "rb"))
 
+
 # modelop.score
 def action(data):
     
     print(type(data))
-    data = pd.DataFrame([data])
-    
-    if 'SalePrice' in data.columns:  # Checking to see if data is labeled
-        labeled=True
-        actuals = data['SalePrice']  # Saving actuals (Sale prices)
-        data.drop('SalePrice', axis=1, inplace=True)
-    else:
-        labeled=False
-        
-    print("Labeled: ", labeled)
 
-    data_ID = data['Id']  # Saving the Id column
+    # Turn data into Pandas df
+    # data = pd.DataFrame([data])
+
+    data_ID = data['Id']  # Saving the Id column then dropping it
     data.drop("Id", axis=1, inplace=True)
 
+    # Imputations
     data['MasVnrType'] = data['MasVnrType'].fillna('None')
     data['MasVnrArea'] = data['MasVnrArea'].fillna(0)
     data['Electrical'] = data['Electrical'].fillna('SBrkr')
@@ -51,6 +49,7 @@ def action(data):
     data['Exterior2nd'] = data['Exterior2nd'].fillna('VinylSd')
     data['Exterior1st'] = data['Exterior1st'].fillna('VinylSd')
 
+    # Transform some features into catgeoricals
     data['MSSubClass']  = pd.Categorical(data.MSSubClass)
     data['YrSold']  = pd.Categorical(data.YrSold)
     data['MoSold']  = pd.Categorical(data.MoSold)
@@ -77,16 +76,21 @@ def action(data):
     data['has_bsmt'] = data['TotalBsmtSF'].apply(f)
     data['has_fireplace'] = data['Fireplaces'].apply(f)
 
+    # Drop some unnecassary features
     data = data.drop(['threeSsnPorch', 'PoolArea', 'LowQualFinSF'], axis=1)
     
     print("shape before get dummies: ", data.shape)
-    cat_cols = ['MSSubClass', 'MSZoning', 'Street', 'Alley', 'LotShape', 'LandContour', 'Utilities', 
-                'LotConfig', 'LandSlope', 'Neighborhood', 'Condition1', 'Condition2', 'BldgType', 'HouseStyle', 
-                'RoofStyle', 'RoofMatl', 'Exterior1st', 'Exterior2nd', 'MasVnrType', 'ExterQual', 'ExterCond', 
-                'Foundation', 'BsmtQual', 'BsmtCond', 'BsmtExposure', 'BsmtFinType1', 'BsmtFinType2', 'Heating', 
-                'HeatingQC', 'CentralAir', 'Electrical', 'KitchenQual', 'Functional', 'FireplaceQu', 'GarageType', 
-                'GarageFinish', 'GarageQual', 'GarageCond', 'PavedDrive', 'PoolQC', 'Fence', 'MiscFeature', 
-                'MoSold', 'YrSold', 'SaleType','SaleCondition', 'has_pool', 'has_garage', 'has_bsmt', 'has_fireplace']
+    cat_cols = [
+        'MSSubClass', 'MSZoning', 'Street', 'Alley', 'LotShape', 'LandContour', 
+        'Utilities', 'LotConfig', 'LandSlope', 'Neighborhood', 'Condition1', 
+        'Condition2', 'BldgType', 'HouseStyle', 'RoofStyle', 'RoofMatl', 'Exterior1st', 
+        'Exterior2nd', 'MasVnrType', 'ExterQual', 'ExterCond', 'Foundation', 
+        'BsmtQual', 'BsmtCond', 'BsmtExposure', 'BsmtFinType1', 'BsmtFinType2', 'Heating', 
+        'HeatingQC', 'CentralAir', 'Electrical', 'KitchenQual', 'Functional', 
+        'FireplaceQu', 'GarageType', 'GarageFinish', 'GarageQual', 'GarageCond', 
+        'PavedDrive', 'PoolQC', 'Fence', 'MiscFeature', 'MoSold', 'YrSold', 'SaleType',
+        'SaleCondition', 'has_pool', 'has_garage', 'has_bsmt', 'has_fireplace'
+    ]
 
     encoded_features = pd.get_dummies(data, columns = cat_cols)
     
@@ -104,32 +108,34 @@ def action(data):
     
     print("shape Encoded Features: ", encoded_features.shape)
 
-    models = {'Lasso': lasso_model}
-
-    log_predictions = {}  # Model was trained on log(SalePrice)
-    RMSEs = {}  # Root mean square error
-
-    for name, model in models.items():
-        log_predictions[name] = model.predict(encoded_features)  # Computing predictions for each model and each record
+    # Model was trained on log(SalePrice)
+    log_predictions = lasso_model.predict(encoded_features)  # Computing predictions for each model and each record
 
     adjusted_predictions = {}
     
-    adjusted_predictions['ID'] = int(data_ID)
+    adjusted_predictions['Id'] = data_ID.astype(int)
     
-    for name, model in models.items():
-        # actual predictions = exp(log_predictions)
-        adjusted_predictions[name] = np.expm1(log_predictions[name])
-        if labeled:
-            #  Computing RMSE if actual data is available
-            RMSEs[name] = np.sqrt(mean_squared_error(adjusted_predictions[name], actuals))
+    # actual predictions = exp(log_predictions)
+    adjusted_predictions['predicted_sale_price'] = np.round(np.expm1(log_predictions),2)
 
-    # Use below with schema array_doubles
-    out = np.round(np.array(pd.DataFrame(adjusted_predictions)),2).tolist() 
+    # return an array of dictionary such as
+    # [{'Id': 1461, 'predicted_sale_price': 120429.01}, {'Id': 1462, 'predicted_sale_price': 123970.31}]
+    
+    return pd.DataFrame(adjusted_predictions).to_dict(orient='records')
 
-    # Use below with schema three_RMSEs
-    #out = RMSEs
-    yield out
 
 # modelop.metrics
 def metrics(datum):
-    yield {"foo": 1}
+
+    adjusted_predictions = datum['predicted_sale_price']
+    actuals = datum['actual_sale_price']
+
+    # Mean squared error
+    MSE = mean_squared_error(adjusted_predictions, actuals)
+    RMSE = np.sqrt(MSE)
+    MAE = mean_absolute_error(adjusted_predictions, actuals)
+
+    return {
+        "RMSE": np.round(RMSE, 2),
+        "MAE": np.round(MAE, 2)
+    }
