@@ -21,6 +21,8 @@ def action(data):
     
     print(type(data))
 
+    data = pd.DataFrame(data)
+
     data_ID = data['Id']  # Saving the Id column then dropping it
     data.drop("Id", axis=1, inplace=True)
 
