@@ -141,9 +141,13 @@ def action(data):
 # modelop.metrics
 def metrics(datum):
 
+    print()
     print(type(datum), flush=True)
-
-    datum = pd.DataFrame(datum)
+    print()
+    print(datum.shape, flush=True)
+    print()
+    
+    datum = pd.DataFrame([np.array(datum)[0][0]])
 
     adjusted_predictions = datum['predicted_sale_price']
     actuals = datum['actual_sale_price']
@@ -153,7 +157,7 @@ def metrics(datum):
     RMSE = np.sqrt(MSE)
     MAE = mean_absolute_error(adjusted_predictions, actuals)
 
-    return {
+    yield {
         "RMSE": np.round(RMSE, 2),
         "MAE": np.round(MAE, 2)
     }
