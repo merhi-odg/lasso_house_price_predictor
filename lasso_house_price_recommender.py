@@ -6,10 +6,14 @@ import pandas as pd
 import pickle
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error
+import warnings
 
 
 # modelop.init
 def begin():
+
+    warnings.simplefilter(action='ignore', category=FutureWarning)
+    warnings.simplefilter(action='ignore', category=UserWarning)
 
     global lasso_model, train_encoded_columns
     lasso_model = pickle.load(open("lasso_model.pickle", "rb"))
@@ -18,6 +22,7 @@ def begin():
     print("\ntype(lasso_model): ", type(lasso_model), flush=True)
     print("\ntype(train_encoded_columns): ", type(train_encoded_columns), flush=True)
 
+    
 
 # modelop.score
 def action(data):
