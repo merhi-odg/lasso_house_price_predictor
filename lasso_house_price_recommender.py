@@ -10,6 +10,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 # modelop.init
 def begin():
+
     global lasso_model, train_encoded_columns
     lasso_model = pickle.load(open("lasso_model.pickle", "rb"))
     train_encoded_columns = pickle.load(open("train_encoded_columns.pickle", "rb"))
@@ -20,9 +21,6 @@ def action(data):
     
     print(type(data))
 
-    # Turn data into Pandas df
-    # data = pd.DataFrame([data])
-
     data_ID = data['Id']  # Saving the Id column then dropping it
     data.drop("Id", axis=1, inplace=True)
 
@@ -30,7 +28,9 @@ def action(data):
     data['MasVnrType'] = data['MasVnrType'].fillna('None')
     data['MasVnrArea'] = data['MasVnrArea'].fillna(0)
     data['Electrical'] = data['Electrical'].fillna('SBrkr')
-    data['LotFrontage'] = data.groupby('Neighborhood')['LotFrontage'].transform(lambda x: x.fillna(x.median()))
+    data['LotFrontage'] = data.groupby('Neighborhood')['LotFrontage'].transform(
+        lambda x: x.fillna(x.median())
+    )
     data['GarageYrBlt'] = data['GarageYrBlt'].fillna(data['YearBuilt'])
 
     data['MSZoning'] = data['MSZoning'].fillna('RL')
@@ -60,13 +60,16 @@ def action(data):
     data['TotalSF'] = data['TotalBsmtSF'] + data['firstFlrSF'] + data['secondFlrSF']
 
     #  Computing total 'porch' square-footage as a new feature
-    data['Total_porch_sf'] = (data['OpenPorchSF'] + data['threeSsnPorch'] + data['EnclosedPorch'] 
-                             + data['ScreenPorch'] + data['WoodDeckSF'])
+    data['Total_porch_sf'] = (
+        data['OpenPorchSF'] + data['threeSsnPorch'] + data['EnclosedPorch'] 
+        + data['ScreenPorch'] + data['WoodDeckSF']
+    )
 
     #  Computing total bathrooms as a new feature
-    data['Total_Bathrooms'] = (data['FullBath'] + (0.5 * data['HalfBath']) +
-                                data['BsmtFullBath'] + (0.5 * data['BsmtHalfBath']))
-
+    data['Total_Bathrooms'] = (
+        data['FullBath'] + (0.5 * data['HalfBath']) + data['BsmtFullBath'] 
+        + (0.5 * data['BsmtHalfBath'])
+    )
 
     # Engineering some features into Booleans
     f = lambda x: bool(1) if x > 0 else bool(0)
@@ -80,16 +83,18 @@ def action(data):
     data = data.drop(['threeSsnPorch', 'PoolArea', 'LowQualFinSF'], axis=1)
     
     print("shape before get dummies: ", data.shape)
+
     cat_cols = [
         'MSSubClass', 'MSZoning', 'Street', 'Alley', 'LotShape', 'LandContour', 
         'Utilities', 'LotConfig', 'LandSlope', 'Neighborhood', 'Condition1', 
-        'Condition2', 'BldgType', 'HouseStyle', 'RoofStyle', 'RoofMatl', 'Exterior1st', 
-        'Exterior2nd', 'MasVnrType', 'ExterQual', 'ExterCond', 'Foundation', 
-        'BsmtQual', 'BsmtCond', 'BsmtExposure', 'BsmtFinType1', 'BsmtFinType2', 'Heating', 
-        'HeatingQC', 'CentralAir', 'Electrical', 'KitchenQual', 'Functional', 
-        'FireplaceQu', 'GarageType', 'GarageFinish', 'GarageQual', 'GarageCond', 
-        'PavedDrive', 'PoolQC', 'Fence', 'MiscFeature', 'MoSold', 'YrSold', 'SaleType',
-        'SaleCondition', 'has_pool', 'has_garage', 'has_bsmt', 'has_fireplace'
+        'Condition2', 'BldgType', 'HouseStyle', 'RoofStyle', 'RoofMatl', 
+        'Exterior1st', 'Exterior2nd', 'MasVnrType', 'ExterQual', 'ExterCond', 
+        'Foundation', 'BsmtQual', 'BsmtCond', 'BsmtExposure', 'BsmtFinType1', 
+        'BsmtFinType2', 'Heating', 'HeatingQC', 'CentralAir', 'Electrical', 
+        'KitchenQual', 'Functional', 'FireplaceQu', 'GarageType', 'GarageFinish', 
+        'GarageQual', 'GarageCond', 'PavedDrive', 'PoolQC', 'Fence', 
+        'MiscFeature', 'MoSold', 'YrSold', 'SaleType', 'SaleCondition', 'has_pool', 
+        'has_garage', 'has_bsmt', 'has_fireplace'
     ]
 
     encoded_features = pd.get_dummies(data, columns = cat_cols)
@@ -108,18 +113,20 @@ def action(data):
     
     print("shape Encoded Features: ", encoded_features.shape)
 
-    # Model was trained on log(SalePrice)
-    log_predictions = lasso_model.predict(encoded_features)  # Computing predictions for each model and each record
+    # Computing predictions for each record
+    log_predictions = lasso_model.predict(encoded_features)
 
+    # Model was trained on log(SalePrice)
     adjusted_predictions = {}
     
     adjusted_predictions['Id'] = data_ID.astype(int)
     
     # actual predictions = exp(log_predictions)
-    adjusted_predictions['predicted_sale_price'] = np.round(np.expm1(log_predictions),2)
+    adjusted_predictions['predicted_sale_price'] = np.round(np.expm1(log_predictions), 2)
 
-    # return an array of dictionary such as
-    # [{'Id': 1461, 'predicted_sale_price': 120429.01}, {'Id': 1462, 'predicted_sale_price': 123970.31}]
+    # return an array of dictionaries such as
+    # [{'Id': 1461, 'predicted_sale_price': 120429.01}, 
+    #  {'Id': 1462, 'predicted_sale_price': 123970.31}]
     
     yield pd.DataFrame(adjusted_predictions).to_dict(orient='records')
 
