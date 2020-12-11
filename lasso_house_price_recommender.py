@@ -121,7 +121,7 @@ def action(data):
     # return an array of dictionary such as
     # [{'Id': 1461, 'predicted_sale_price': 120429.01}, {'Id': 1462, 'predicted_sale_price': 123970.31}]
     
-    return pd.DataFrame(adjusted_predictions).to_dict(orient='records')
+    yield pd.DataFrame(adjusted_predictions).to_dict(orient='records')
 
 
 # modelop.metrics
@@ -135,7 +135,7 @@ def metrics(datum):
     RMSE = np.sqrt(MSE)
     MAE = mean_absolute_error(adjusted_predictions, actuals)
 
-    return {
+    yield {
         "RMSE": np.round(RMSE, 2),
         "MAE": np.round(MAE, 2)
     }
