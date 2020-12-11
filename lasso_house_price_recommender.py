@@ -134,7 +134,7 @@ def action(data):
     #  {'Id': 1462, 'predicted_sale_price': 123970.31}]
     
     print("\noutput: ", pd.DataFrame(adjusted_predictions).to_dict(orient='records'), flush=True)
-    
+
     yield pd.DataFrame(adjusted_predictions).to_dict(orient='records')
 
 
@@ -142,6 +142,8 @@ def action(data):
 def metrics(datum):
 
     print(type(datum), flush=True)
+
+    datum = pd.DataFrame(datum)
 
     adjusted_predictions = datum['predicted_sale_price']
     actuals = datum['actual_sale_price']
@@ -151,7 +153,7 @@ def metrics(datum):
     RMSE = np.sqrt(MSE)
     MAE = mean_absolute_error(adjusted_predictions, actuals)
 
-    yield {
+    return {
         "RMSE": np.round(RMSE, 2),
         "MAE": np.round(MAE, 2)
     }
