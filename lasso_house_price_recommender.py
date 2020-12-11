@@ -152,7 +152,8 @@ def metrics(datum):
     print(datum.shape, flush=True)
     print()
     
-    datum = pd.DataFrame([np.array(datum)[0][0]])
+    #datum = pd.DataFrame([np.array(datum)[0][0]])
+    datum = pd.DataFrame(datum)
 
     adjusted_predictions = datum['predicted_sale_price']
     actuals = datum['actual_sale_price']
